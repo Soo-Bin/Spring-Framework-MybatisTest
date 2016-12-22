@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.mybatis.MemberMapper">
+
+	<resultMap type="Member" id="MemberResultMap">
+		<result property="_user" column="USER" />
+		<result property="_title" column="TITLE" />
+		<result property="_num" column="NUM" />
+		<result property="_date" column="DATE" />
+		<result property="_cnt" column="CNT" />
+	</resultMap>
+
+	<!-- id의 경우에는 Mapper.java에 동일하게 사용해야된다. -->
+	<select id="getMembers" resultMap="MemberResultMap">
+		SELECT * FROM tab_mybatis
+	</select>
+	
+	<!-- parameterType 에는 구문에 전달될 파라미터의 패키지 경로를 포함한 전체 클래명이나 별칭이 들어간다  -->
+	<insert id="insertMember" parameterType="com.test.mybatis.Member" >
+		INSERT INTO tab_mybatis values(#{_user},#{_title},#{_num},#{_date},#{_cnt})
+		<!-- INSERT INTO tab_mybatis.num values (SELECT COUNT(#{_num}) FROM tab_mybatis GROUP BY title) -->
+		
+	</insert>
+	
+	<!-- update는 생략한다. -->
+	<update id="updateMember" parameterType="com.test.mybatis.Member">
+		UPDATE tab_mybatis SET user=#{_user} WHERE(user=#{_user})
+	</update>
+	
+	<delete id="deleteMember" parameterType="com.test.mybatis.Member">
+		DELETE FROM tab_mybatis WHERE(user=#{_user})
+	</delete>
+
+</mapper>
